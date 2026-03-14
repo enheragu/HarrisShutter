@@ -12,9 +12,9 @@ It lets you:
 
 Web version:
 
-- https://enheragu.github.io/Harris-ShutterTool/
+- https://enheragu.github.io/HarrisShutter/
 
-Source gist with python version of Harris-Shutter fusion algorithm:
+Source gist with python version of Harris Shutter fusion algorithm:
 
 - https://gist.github.com/enheragu/4e3df5fcf7eb60f12ca76c28b74a0905
 
