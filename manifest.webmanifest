@@ -1,0 +1,17 @@
+{
+  "name": "Harris-ShutterTool",
+  "short_name": "HarrisShutter",
+  "start_url": "/Harris-ShutterTool/",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#58a6ff",
+  "description": "Fuse 3 images into Harris Shutter composites using RGB or CYM channel mapping.",
+  "icons": [
+    {
+      "src": "/Harris-ShutterTool/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
