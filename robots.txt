@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://enheragu.github.io/Harris-ShutterTool/sitemap.xml
+Sitemap: https://enheragu.github.io/HarrisShutter/sitemap.xml

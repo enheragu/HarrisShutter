@@ -7,40 +7,40 @@
     (function () {
       var p = window.location.pathname;
       if ( p === '/HarrisShutter') {
-        window.location.replace('/Harris-ShutterTool/' + window.location.search + window.location.hash);
+        window.location.replace('/HarrisShutter/' + window.location.search + window.location.hash);
       }
     })();
   </script>
 
-  <title>Harris-ShutterTool — RGB/CYM Channel Fusion</title>
+  <title>HarrisShutter — RGB/CYM Channel Fusion</title>
   <meta name="description" content="Create Harris Shutter images by assigning source photos to RGB or CYM channels and exporting the fused result.">
   <meta name="robots" content="index,follow">
   <meta name="theme-color" content="#58a6ff">
 
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Harris-ShutterTool">
-  <meta property="og:url" content="https://enheragu.github.io/Harris-ShutterTool/">
+  <meta property="og:site_name" content="HarrisShutter">
+  <meta property="og:url" content="https://enheragu.github.io/HarrisShutter/">
   <meta property="og:locale" content="en_GB">
   <meta property="og:locale:alternate" content="es_ES">
-  <meta property="og:title" content="Harris-ShutterTool — RGB/CYM channel fusion">
+  <meta property="og:title" content="HarrisShutter — RGB/CYM channel fusion">
   <meta property="og:description" content="Assign each image to RGB or CYM channels and generate Harris Shutter composites.">
-  <meta property="og:image" content="https://enheragu.github.io/Harris-ShutterTool/assets/og-image.png">
+  <meta property="og:image" content="https://enheragu.github.io/HarrisShutter/assets/og-image.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Harris-ShutterTool preview image">
+  <meta property="og:image:alt" content="HarrisShutter preview image">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Harris-ShutterTool — RGB/CYM channel fusion">
+  <meta name="twitter:title" content="HarrisShutter — RGB/CYM channel fusion">
   <meta name="twitter:description" content="Build Harris Shutter composites from three photos with flexible channel assignment.">
-  <meta name="twitter:image" content="https://enheragu.github.io/Harris-ShutterTool/assets/og-image.png">
-  <meta name="twitter:image:alt" content="Harris-ShutterTool preview image">
+  <meta name="twitter:image" content="https://enheragu.github.io/HarrisShutter/assets/og-image.png">
+  <meta name="twitter:image:alt" content="HarrisShutter preview image">
 
-  <link rel="canonical" href="https://enheragu.github.io/Harris-ShutterTool/">
-  <link rel="icon" type="image/svg+xml" href="/Harris-ShutterTool/assets/favicon.svg">
-  <link rel="alternate" hreflang="x-default" href="https://enheragu.github.io/Harris-ShutterTool/">
-  <link rel="alternate" hreflang="en" href="https://enheragu.github.io/Harris-ShutterTool/en/">
-  <link rel="alternate" hreflang="es" href="https://enheragu.github.io/Harris-ShutterTool/es/">
+  <link rel="canonical" href="https://enheragu.github.io/HarrisShutter/">
+  <link rel="icon" type="image/svg+xml" href="/HarrisShutter/assets/favicon.svg">
+  <link rel="alternate" hreflang="x-default" href="https://enheragu.github.io/HarrisShutter/">
+  <link rel="alternate" hreflang="en" href="https://enheragu.github.io/HarrisShutter/en/">
+  <link rel="alternate" hreflang="es" href="https://enheragu.github.io/HarrisShutter/es/">
   <link rel="manifest" href="manifest.webmanifest">
 
   <!-- Google tag (gtag.js) -->
@@ -56,8 +56,8 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Harris-ShutterTool",
-    "url": "https://enheragu.github.io/Harris-ShutterTool/",
+    "name": "HarrisShutter",
+    "url": "https://enheragu.github.io/HarrisShutter/",
     "applicationCategory": "PhotoApplication",
     "operatingSystem": "Any",
     "inLanguage": ["en", "es"],
@@ -69,15 +69,18 @@
   }
   </script>
 
+  <link rel="stylesheet" href="/assets/shared/theme-tokens.css" onerror="this.onerror=null;this.href='../assets/shared/theme-tokens.css';this.onerror=function(){this.onerror=null;this.href='https://enheragu.github.io/assets/shared/theme-tokens.css';};">
   <link rel="stylesheet" href="/assets/shared/app-shell.css" onerror="this.onerror=null;this.href='../assets/shared/app-shell.css';this.onerror=function(){this.onerror=null;this.href='https://enheragu.github.io/assets/shared/app-shell.css';};">
   <link rel="stylesheet" href="/assets/shared/controls.css" onerror="this.onerror=null;this.href='../assets/shared/controls.css';this.onerror=function(){this.onerror=null;this.href='https://enheragu.github.io/assets/shared/controls.css';};">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/assets/shared/modal-primitives.css?v=20260316" onerror="this.onerror=null;this.href='../assets/shared/modal-primitives.css?v=20260316';this.onerror=function(){this.onerror=null;this.href='https://enheragu.github.io/assets/shared/modal-primitives.css?v=20260316';};">
+  <link rel="stylesheet" href="/assets/shared/lightbox-stage.css?v=20260316" onerror="this.onerror=null;this.href='../assets/shared/lightbox-stage.css?v=20260316';this.onerror=function(){this.onerror=null;this.href='https://enheragu.github.io/assets/shared/lightbox-stage.css?v=20260316';};">
+  <link rel="stylesheet" href="css/style.css?v=20260316">
 </head>
 <body>
   <header>
     <div class="header-inner">
       <div>
-        <h1>Harris-ShutterTool</h1>
+        <h1>HarrisShutter</h1>
         <p class="subtitle" id="subtitle">RGB/CYM channel fusion for Harris Shutter composites</p>
       </div>
       <div class="header-controls">
@@ -301,10 +304,10 @@
   </footer>
 
   <section id="image-modal-overlay" class="chart-modal-overlay hidden" aria-hidden="true">
-    <div class="chart-modal image-modal" role="dialog" aria-modal="true" aria-labelledby="image-modal-title">
+    <div class="image-modal" role="dialog" aria-modal="true" aria-labelledby="image-modal-title">
       <h3 id="image-modal-title" class="sr-only">Image preview</h3>
-      <div class="chart-modal-body image-modal-body">
-        <div class="image-modal-controls floating-controls">
+      <div class="image-modal-body shared-lightbox-stage">
+        <div class="image-modal-controls shared-corner-controls">
           <div id="image-modal-view-group" class="modal-view-group">
             <span id="lbl-image-modal-view" class="modal-view-label">View</span>
             <div class="view-toggle view-toggle-sm" role="group" aria-labelledby="lbl-image-modal-view">
@@ -312,7 +315,7 @@
               <button id="btn-modal-view-channel" class="btn-ghost" type="button" data-view-mode="channel">Channel</button>
             </div>
           </div>
-          <button id="btn-close-image-modal" class="btn-preview-icon btn-modal-close" type="button" aria-label="Close" title="Close">
+          <button id="btn-close-image-modal" class="btn-preview-icon btn-modal-close shared-icon-btn shared-close-btn" type="button" aria-label="Close" title="Close">
             <span aria-hidden="true" class="icon-close">
               <svg viewBox="0 0 24 24" role="presentation" focusable="false">
                 <path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -320,15 +323,15 @@
             </span>
           </button>
         </div>
-        <button id="btn-image-prev" class="btn-preview-icon btn-modal-nav" type="button" aria-label="Previous image" title="Previous">
+        <button id="btn-image-prev" class="btn-preview-icon btn-modal-nav shared-icon-btn shared-nav-btn" type="button" aria-label="Previous image" title="Previous">
           <span aria-hidden="true" class="icon-arrow icon-arrow-left">
             <svg viewBox="0 0 24 24" role="presentation" focusable="false">
               <path d="M14.5 6 8.5 12l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </span>
         </button>
-        <canvas id="image-modal-canvas" width="960" height="540"></canvas>
-        <button id="btn-image-next" class="btn-preview-icon btn-modal-nav" type="button" aria-label="Next image" title="Next">
+        <canvas id="image-modal-canvas" class="shared-lightbox-media shared-lightbox-frame" width="960" height="540"></canvas>
+        <button id="btn-image-next" class="btn-preview-icon btn-modal-nav shared-icon-btn shared-nav-btn" type="button" aria-label="Next image" title="Next">
           <span aria-hidden="true" class="icon-arrow icon-arrow-right">
             <svg viewBox="0 0 24 24" role="presentation" focusable="false">
               <path d="M9.5 6 15.5 12l-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -342,7 +345,7 @@
   <dialog id="color-picker-dialog" class="panel custom-color-modal">
     <div class="panel-header subpanel-header">
       <h2 id="color-picker-title">Choose a color</h2>
-      <button id="btn-close-color" class="btn-preview-icon btn-modal-close" type="button" aria-label="Close" title="Close">
+      <button id="btn-close-color" class="btn-preview-icon btn-modal-close shared-icon-btn shared-close-btn" type="button" aria-label="Close" title="Close">
         <span aria-hidden="true" class="icon-close">
           <svg viewBox="0 0 24 24" role="presentation" focusable="false">
             <path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>

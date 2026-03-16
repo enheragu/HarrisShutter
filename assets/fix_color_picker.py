@@ -1,6 +1,6 @@
 import re
 
-with open('/home/quique/eeha/Harris-ShutterTool/index.html', 'r', encoding='utf-8') as f:
+with open('/home/quique/eeha/HarrisShutter/index.html', 'r', encoding='utf-8') as f:
     html = f.read()
 
 # Remove old inline popups
@@ -34,5 +34,5 @@ dialog_html = """
 if '<dialog id="color-picker-dialog"' not in html:
     html = html.replace('</body>', dialog_html + '\n</body>')
 
-with open('/home/quique/eeha/Harris-ShutterTool/index.html', 'w', encoding='utf-8') as f:
+with open('/home/quique/eeha/HarrisShutter/index.html', 'w', encoding='utf-8') as f:
     f.write(html)

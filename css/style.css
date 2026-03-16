@@ -1,33 +1,5 @@
 :root {
-  --sig-gray: #6e7681;
-  --sig-blue: #58a6ff;
-  --sig-amber: #d29922;
-  --sig-green: #3fb950;
-  --sig-red: #f85149;
-  --sig-purple: #bc8cff;
-
-  --clr-bg: #f4f6f9;
-  --clr-surface: #ffffff;
-  --clr-primary: var(--sig-blue);
-  --clr-primary-h: var(--sig-purple);
-  --clr-border: #dde1e7;
-  --clr-text: #1e293b;
-  --clr-muted: var(--sig-gray);
-  --clr-chart-bg: #ffffff;
-  --radius: 8px;
-  --shadow: 0 1px 4px rgba(0,0,0,.10);
-  --header-h: 64px;
   --panel-gap: 1rem;
-}
-
-body.dark {
-  --clr-bg: #0d1117;
-  --clr-surface: #161b22;
-  --clr-border: #30363d;
-  --clr-text: #e6edf3;
-  --clr-muted: #8b949e;
-  --clr-chart-bg: #1b2129;
-  --shadow: 0 1px 8px rgba(0,0,0,.40);
 }
 
 body {
@@ -514,20 +486,24 @@ select {
 }
 
 .image-modal {
-  width: min(1500px, calc(100vw - 16px));
-  height: calc(100vh - var(--header-h) - 16px);
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
   max-width: none;
   max-height: none;
   border: none;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.12);
+  border-radius: 0;
+  background: transparent;
   box-shadow: none;
+  margin: 0;
+  padding: 0;
 }
 
 #image-modal-overlay {
   z-index: 2200;
-  align-items: flex-start;
-  padding-top: calc(var(--header-h) + 8px);
+  align-items: center;
+  padding-top: 0;
   background: rgba(0, 0, 0, 0.74);
   backdrop-filter: blur(2px);
 }
@@ -546,18 +522,6 @@ select {
 
 .is-hidden {
   display: none !important;
-}
-
-.floating-controls {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 6;
-  padding: 6px;
-  border-radius: 10px;
-  background: color-mix(in oklab, var(--clr-surface) 72%, transparent);
-  border: 1px solid color-mix(in oklab, var(--clr-border) 70%, transparent);
-  backdrop-filter: blur(3px);
 }
 
 .modal-view-label {
@@ -593,15 +557,13 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  min-height: calc(100vh - var(--header-h) - 42px);
+  gap: 0;
+  min-height: 0;
   position: relative;
 }
 
 .btn-modal-nav {
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
+  flex: 0 0 auto;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -616,33 +578,12 @@ select {
   right: 10px;
 }
 
-.icon-arrow,
-.icon-arrow svg {
-  width: 16px;
-  height: 16px;
-  display: block;
-}
-
 #image-modal-canvas {
   width: auto;
   height: auto;
-  max-width: calc(100vw - 100px);
-  max-height: calc(100vh - var(--header-h) - 96px);
-  border: 1px solid color-mix(in oklab, var(--clr-border) 70%, transparent);
-  border-radius: 8px;
-  background: #0b1220;
-}
-
-.btn-modal-close {
-  width: 30px;
-  height: 30px;
-}
-
-.icon-close,
-.icon-close svg {
-  width: 14px;
-  height: 14px;
-  display: block;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .sr-only {
@@ -659,8 +600,8 @@ select {
 
 @media (max-width: 760px) {
   .image-modal {
-    width: calc(100vw - 8px);
-    height: calc(100vh - var(--header-h) - 8px);
+    width: auto;
+    height: auto;
     border-radius: 8px;
   }
 
@@ -676,7 +617,7 @@ select {
     min-width: 66px;
   }
 
-  .btn-modal-nav {
+  .btn-modal-nav.shared-nav-btn {
     width: 30px;
     height: 30px;
     flex-basis: 30px;
@@ -685,10 +626,6 @@ select {
   #btn-image-prev { left: 6px; }
   #btn-image-next { right: 6px; }
 
-  #image-modal-canvas {
-    max-width: calc(100vw - 84px);
-    max-height: calc(100vh - var(--header-h) - 110px);
-  }
 }
 
 .mode-actions-row {

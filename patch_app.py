@@ -1,6 +1,6 @@
 import re
 
-with open('/home/quique/eeha/Harris-ShutterTool/js/app.js', 'r', encoding='utf-8') as f:
+with open('/home/quique/eeha/HarrisShutter/js/app.js', 'r', encoding='utf-8') as f:
     js = f.read()
 
 
@@ -184,5 +184,5 @@ js = js.replace('/* REPLACED_SWATCHES */', close_outside)
 js = re.sub(r'/\* REPLACED_(NATIVE|HEX|RGB|CHIPS|OUTSIDE) \*/\n?', '', js)
 
 
-with open('/home/quique/eeha/Harris-ShutterTool/js/app.js', 'w', encoding='utf-8') as f:
+with open('/home/quique/eeha/HarrisShutter/js/app.js', 'w', encoding='utf-8') as f:
     f.write(js)

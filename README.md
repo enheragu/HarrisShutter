@@ -1,6 +1,6 @@
-# Harris-ShutterTool
+# HarrisShutter
 
-Harris-ShutterTool is a static web application to generate Harris Shutter composites from three source images with channel assignment in RGB or CYM mode.
+HarrisShutter is a static web application to generate Harris Shutter composites from three source images with channel assignment in RGB or CYM mode.
 
 It lets you:
 

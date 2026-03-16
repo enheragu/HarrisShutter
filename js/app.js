@@ -785,8 +785,8 @@
   async function loadSampleIntoSlot(slotIndex, fileName) {
     const candidates = [
       `media/raw/${fileName}`,
-      `/Harris-ShutterTool/media/raw/${fileName}`,
-      `https://enheragu.github.io/Harris-ShutterTool/media/raw/${fileName}`
+      `/HarrisShutter/media/raw/${fileName}`,
+      `https://enheragu.github.io/HarrisShutter/media/raw/${fileName}`
     ];
     for (const url of candidates) {
       try {
