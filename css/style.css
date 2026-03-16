@@ -3,7 +3,7 @@
 }
 
 body {
-  font-size: 14px;
+  font-size: var(--txt-ui, 14px);
 }
 
 .header-controls { flex-shrink: 0; }
@@ -30,7 +30,7 @@ main {
 
 .panel-header h2 {
   margin: 0;
-  font-size: 1.03rem;
+  font-size: var(--txt-lg, 1.03rem);
 }
 
 .panel-block {
@@ -40,7 +40,7 @@ main {
 label {
   display: block;
   margin-bottom: 8px;
-  font-weight: 600;
+  font-weight: var(--txt-w-semibold, 600);
 }
 
 input[type='file'],
@@ -82,8 +82,8 @@ select {
     position: absolute;
     top: var(--workflow-top, 62%);
     transform: translate(-50%, -50%);
-    font-size: 2.2rem;
-    font-weight: 800;
+    font-size: var(--txt-display, 2.2rem);
+    font-weight: var(--txt-w-extrabold, 800);
     color: color-mix(in oklab, var(--clr-primary) 35%, var(--clr-muted));
     opacity: .75;
     text-shadow: 0 0 12px color-mix(in oklab, var(--clr-primary) 25%, transparent);
@@ -130,8 +130,8 @@ select {
 
 .subpanel-header h2 {
   margin: 0;
-  font-size: .95rem;
-  font-weight: 600;
+  font-size: var(--txt-base, .95rem);
+  font-weight: var(--txt-w-semibold, 600);
 }
 
 .source-card-header {
@@ -166,7 +166,7 @@ select {
 .file-name {
   min-width: 0;
   color: var(--clr-muted);
-  font-size: .88rem;
+  font-size: var(--txt-md-plus, .88rem);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -176,9 +176,9 @@ select {
   min-height: 34px;
   padding: .42rem .55rem;
   border-radius: 6px;
-  font-size: .8rem;
+  font-size: var(--txt-sm-plus, .8rem);
   text-align: center;
-  font-weight: 700;
+  font-weight: var(--txt-w-bold, 700);
 }
 
 .custom-color-control {
@@ -256,7 +256,7 @@ select {
   border: 1px solid var(--clr-border);
   background: var(--clr-surface);
   color: var(--clr-text);
-  font-size: .8rem;
+  font-size: var(--txt-sm-plus, .8rem);
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
   text-transform: uppercase;
   letter-spacing: .02em;
@@ -281,8 +281,8 @@ select {
 }
 
 .custom-rgb-label {
-  font-size: .68rem;
-  font-weight: 700;
+  font-size: var(--txt-2xs, .68rem);
+  font-weight: var(--txt-w-bold, 700);
   color: var(--clr-muted);
   text-align: center;
   line-height: 1;
@@ -295,7 +295,7 @@ select {
   background: var(--clr-surface);
   color: var(--clr-text);
   text-align: center;
-  font-size: .76rem;
+  font-size: var(--txt-sm, .76rem);
   font-variant-numeric: tabular-nums;
   padding: .32rem .4rem;
 }
@@ -398,28 +398,9 @@ select {
   z-index: 3;
 }
 
-.btn-preview-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
-  border: 1px solid var(--clr-border);
-  background: color-mix(in oklab, var(--clr-surface) 78%, transparent);
-  color: var(--clr-text);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  line-height: 1;
-  backdrop-filter: blur(2px);
-}
-
-.btn-preview-icon:hover {
-  border-color: var(--clr-primary);
-}
-
 .btn-preview-expand::before {
   color: var(--clr-primary);
-  font-size: .9rem;
+  font-size: var(--txt-md-plus, .9rem);
 }
 
 .btn-preview-expand {
@@ -457,7 +438,7 @@ select {
   justify-content: center;
   padding: 12px;
   text-align: center;
-  font-size: .78rem;
+  font-size: var(--txt-sm, .78rem);
   color: var(--clr-muted);
   pointer-events: none;
 }
@@ -469,8 +450,8 @@ select {
 .source-card.has-sample .drop-overlay {
   inset: 1px;
   color: color-mix(in oklab, white 86%, var(--clr-text));
-  font-size: .76rem;
-  font-weight: 600;
+  font-size: var(--txt-sm, .76rem);
+  font-weight: var(--txt-w-semibold, 600);
   border-radius: 9px;
   text-shadow: 0 1px 1px color-mix(in oklab, black 30%, transparent);
   background:
@@ -526,31 +507,31 @@ select {
 
 .modal-view-label {
   margin: 0;
-  font-size: .76rem;
+  font-size: var(--txt-sm, .76rem);
   color: var(--clr-muted);
 }
 
 .mode-toggle,
-.view-control .view-toggle,
-.modal-view-group .view-toggle {
+.view-control .shared-segmented-group,
+.modal-view-group .shared-segmented-group {
   margin-left: 0;
 }
 
 .mode-toggle .btn-ghost,
-.view-control .view-toggle .btn-ghost {
+.view-control .shared-segmented-group .btn-ghost {
   min-width: 0;
   padding-left: .65rem;
   padding-right: .65rem;
 }
 
-.view-toggle-sm {
+.shared-segmented-sm {
   border-radius: 6px;
 }
 
-.view-toggle-sm .btn-ghost {
+.shared-segmented-sm .btn-ghost {
   min-height: 28px;
   padding: .28rem .5rem;
-  font-size: .76rem;
+  font-size: var(--txt-sm, .76rem);
 }
 
 .image-modal-body {
@@ -613,7 +594,7 @@ select {
     display: none;
   }
 
-  .view-toggle-sm .btn-ghost {
+  .shared-segmented-sm .btn-ghost {
     min-width: 66px;
   }
 
@@ -676,8 +657,8 @@ select {
 .custom-presets-label {
   display: block;
   color: var(--clr-muted);
-  font-size: .76rem;
-  font-weight: 600;
+  font-size: var(--txt-sm, .76rem);
+  font-weight: var(--txt-w-semibold, 600);
   margin-bottom: 4px;
 }
 
@@ -687,7 +668,7 @@ select {
 
 .custom-presets .btn-ghost {
   min-width: 56px;
-  font-size: .74rem;
+  font-size: var(--txt-xs, .74rem);
   padding: .3rem .5rem;
 }
 
@@ -747,77 +728,10 @@ select {
   margin: 0;
 }
 
-.range-label-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-.range-value {
-  min-width: 3.5ch;
-  padding: .15rem .4rem;
-  border-radius: 999px;
-  background: color-mix(in oklab, var(--clr-primary) 14%, var(--clr-surface));
-  color: var(--clr-primary);
-  font-size: .74rem;
-  font-weight: 700;
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-}
-
-.range-control input[type='range'] {
-  width: 100%;
-  height: 16px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  -webkit-appearance: none;
-  appearance: none;
-  accent-color: var(--clr-primary);
-}
-
-.range-control input[type='range']::-webkit-slider-runnable-track {
-  height: 6px;
-  border: 0;
-  border-radius: 999px;
-  background: linear-gradient(90deg, color-mix(in oklab, var(--sig-purple) 42%, var(--clr-primary)) 0%, var(--clr-primary) 45%, color-mix(in oklab, var(--sig-blue) 78%, var(--clr-primary-h)) 100%);
-}
-
-.range-control input[type='range']::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 2px solid var(--clr-surface);
-  background: var(--clr-primary);
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--clr-primary) 65%, black), 0 2px 6px rgba(0,0,0,.18);
-  margin-top: -5px;
-}
-
-.range-control input[type='range']::-moz-range-track {
-  height: 6px;
-  border: 0;
-  border-radius: 999px;
-  background: linear-gradient(90deg, color-mix(in oklab, var(--sig-purple) 42%, var(--clr-primary)) 0%, var(--clr-primary) 45%, color-mix(in oklab, var(--sig-blue) 78%, var(--clr-primary-h)) 100%);
-}
-
-.range-control input[type='range']::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 2px solid var(--clr-surface);
-  background: var(--clr-primary);
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--clr-primary) 65%, black), 0 2px 6px rgba(0,0,0,.18);
-}
-
 .hint {
   margin: 0;
   color: var(--clr-muted);
-  font-size: 0.92rem;
+  font-size: var(--txt-md-plus, 0.92rem);
 }
 
 .hint[data-type='error'] {
@@ -865,11 +779,11 @@ select {
     width: 100%;
   }
 
-  .view-toggle {
+  .view-control .shared-segmented-group {
     width: 100%;
   }
 
-  .view-toggle .btn-ghost {
+  .view-control .shared-segmented-group .btn-ghost {
     flex: 1 1 0;
   }
 
@@ -932,7 +846,7 @@ select {
   padding: .7rem 1rem;
 }
 .custom-color-modal .panel-header h2 {
-  font-size: 1rem;
+  font-size: var(--txt-base-plus, 1rem);
   margin: 0;
 }
 #btn-close-color {
@@ -956,8 +870,8 @@ select {
 .custom-palette-label {
   display: block;
   color: var(--clr-muted);
-  font-size: .76rem;
-  font-weight: 600;
+  font-size: var(--txt-sm, .76rem);
+  font-weight: var(--txt-w-semibold, 600);
 }
 .custom-color-map {
   position: relative;

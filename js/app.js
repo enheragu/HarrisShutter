@@ -142,6 +142,7 @@
       saturation: 0,
       gamma: 0
     },
+    sampleRequestIds: [0, 0, 0],
     customColors: ['#FF4D4D', '#A66B2F', '#40B56A'],
     customPreset: null,
     activeCustomSlot: null,
@@ -274,16 +275,30 @@
     return browser.startsWith('es') ? 'es' : 'en';
   }
 
-  function setTheme(theme) {
+  function setTheme(theme, animate = true) {
     state.theme = theme === 'light' ? 'light' : 'dark';
-    document.body.classList.toggle('dark', state.theme === 'dark');
+
+    if (window.SharedUiCore?.setThemeForDocument) {
+      window.SharedUiCore.setThemeForDocument(state.theme, { themeButtonId: 'btn-theme', syncDataTheme: true });
+    } else {
+      document.body.classList.toggle('dark', state.theme === 'dark');
+      document.documentElement.classList.toggle('dark', state.theme === 'dark');
+    }
+
     if (dom.themeButton) {
       dom.themeButton.setAttribute('aria-pressed', state.theme === 'dark' ? 'true' : 'false');
-      dom.themeButton.classList.remove('is-animating');
-      void dom.themeButton.offsetWidth;
-      dom.themeButton.classList.add('is-animating');
-      window.setTimeout(() => dom.themeButton.classList.remove('is-animating'), 280);
+      if (animate) {
+        if (window.SharedUiCore?.animateThemeButton) {
+          window.SharedUiCore.animateThemeButton(dom.themeButton, 420);
+        } else {
+          dom.themeButton.classList.remove('is-animating');
+          void dom.themeButton.offsetWidth;
+          dom.themeButton.classList.add('is-animating');
+          window.setTimeout(() => dom.themeButton.classList.remove('is-animating'), 420);
+        }
+      }
     }
+
     try {
       localStorage.setItem('theme', state.theme);
     } catch (_e) {}
@@ -296,9 +311,12 @@
     } catch (_e) {
       saved = 'dark';
     }
-    setTheme(saved === 'light' ? 'light' : 'dark');
+    setTheme(saved === 'light' ? 'light' : 'dark', false);
     dom.themeButton?.addEventListener('click', () => {
-      setTheme(state.theme === 'dark' ? 'light' : 'dark');
+      const next = window.SharedUiCore?.toggleThemeValue
+        ? window.SharedUiCore.toggleThemeValue(state.theme)
+        : (state.theme === 'dark' ? 'light' : 'dark');
+      setTheme(next, true);
     });
   }
 
@@ -734,6 +752,10 @@
   }
 
   function setSlotImage(slotIndex, img, fileName, isSample) {
+    if (!isSample) {
+      // Invalidate pending sample loads so they cannot overwrite user-selected files.
+      state.sampleRequestIds[slotIndex] += 1;
+    }
     state.slots[slotIndex] = {
       image: img,
       fileName: fileName || '',
@@ -783,6 +805,9 @@
   }
 
   async function loadSampleIntoSlot(slotIndex, fileName) {
+    const requestId = state.sampleRequestIds[slotIndex] + 1;
+    state.sampleRequestIds[slotIndex] = requestId;
+
     const candidates = [
       `media/raw/${fileName}`,
       `/HarrisShutter/media/raw/${fileName}`,
@@ -791,6 +816,11 @@
     for (const url of candidates) {
       try {
         const img = await loadImageFromUrl(url);
+
+        if (state.sampleRequestIds[slotIndex] !== requestId) return;
+        const current = state.slots[slotIndex];
+        if (current.image && !current.isSample) return;
+
         setSlotImage(slotIndex, img, fileName, true);
         return;
       } catch (_e) {}
