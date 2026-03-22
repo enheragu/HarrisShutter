@@ -1,135 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>
-    (function () {
-      var p = window.location.pathname;
-      if ( p === '/HarrisShutter') {
-        window.location.replace('/HarrisShutter/' + window.location.search + window.location.hash);
-      }
-    })();
-  </script>
-
-  <title>HarrisShutter — RGB/CYM Channel Fusion</title>
-  <meta name="description" content="Create Harris Shutter images by assigning source photos to RGB or CYM channels and exporting the fused result.">
-  <meta name="robots" content="index,follow">
-  <meta name="theme-color" content="#58a6ff">
-
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="HarrisShutter">
-  <meta property="og:url" content="https://enheragu.github.io/HarrisShutter/">
-  <meta property="og:locale" content="en_GB">
-  <meta property="og:locale:alternate" content="es_ES">
-  <meta property="og:title" content="HarrisShutter — RGB/CYM channel fusion">
-  <meta property="og:description" content="Assign each image to RGB or CYM channels and generate Harris Shutter composites.">
-  <meta property="og:image" content="https://enheragu.github.io/HarrisShutter/assets/og-image.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="HarrisShutter preview image">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="HarrisShutter — RGB/CYM channel fusion">
-  <meta name="twitter:description" content="Build Harris Shutter composites from three photos with flexible channel assignment.">
-  <meta name="twitter:image" content="https://enheragu.github.io/HarrisShutter/assets/og-image.png">
-  <meta name="twitter:image:alt" content="HarrisShutter preview image">
-
-  <link rel="canonical" href="https://enheragu.github.io/HarrisShutter/">
-  <link rel="icon" type="image/svg+xml" href="/HarrisShutter/assets/favicon.svg">
-  <link rel="alternate" hreflang="x-default" href="https://enheragu.github.io/HarrisShutter/">
-  <link rel="alternate" hreflang="en" href="https://enheragu.github.io/HarrisShutter/en/">
-  <link rel="alternate" hreflang="es" href="https://enheragu.github.io/HarrisShutter/es/">
-  <link rel="manifest" href="manifest.webmanifest">
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NB38N7JG5S"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());  
-    gtag('config', 'G-NB38N7JG5S');
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "HarrisShutter",
-    "url": "https://enheragu.github.io/HarrisShutter/",
-    "applicationCategory": "PhotoApplication",
-    "operatingSystem": "Any",
-    "inLanguage": ["en", "es"],
-    "description": "Create Harris Shutter images by channel fusion in RGB or CYM modes.",
-    "author": {
-      "@type": "Person",
-      "name": "Enrique Heredia-Aguado"
-    }
-  }
-  </script>
-
-  <link rel="stylesheet" href="/assets/shared/theme-tokens.css" onerror="this.onerror=null;this.href='../assets/shared/theme-tokens.css';this.onerror=function(){this.onerror=null;this.href='https://enheragu.github.io/assets/shared/theme-tokens.css';};">
-  <link rel="stylesheet" href="/assets/shared/app-shell.css" onerror="this.onerror=null;this.href='../assets/shared/app-shell.css';this.onerror=function(){this.onerror=null;this.href='https://enheragu.github.io/assets/shared/app-shell.css';};">
-  <link rel="stylesheet" href="/assets/shared/controls.css" onerror="this.onerror=null;this.href='../assets/shared/controls.css';this.onerror=function(){this.onerror=null;this.href='https://enheragu.github.io/assets/shared/controls.css';};">
-  <link rel="stylesheet" href="/assets/shared/modal-primitives.css?v=20260316" onerror="this.onerror=null;this.href='../assets/shared/modal-primitives.css?v=20260316';this.onerror=function(){this.onerror=null;this.href='https://enheragu.github.io/assets/shared/modal-primitives.css?v=20260316';};">
-  <link rel="stylesheet" href="/assets/shared/lightbox-stage.css?v=20260316" onerror="this.onerror=null;this.href='../assets/shared/lightbox-stage.css?v=20260316';this.onerror=function(){this.onerror=null;this.href='https://enheragu.github.io/assets/shared/lightbox-stage.css?v=20260316';};">
-  <link rel="stylesheet" href="/assets/shared/form-controls.css?v=20260316" onerror="this.onerror=null;this.href='../assets/shared/form-controls.css?v=20260316';this.onerror=function(){this.onerror=null;this.href='https://enheragu.github.io/assets/shared/form-controls.css?v=20260316';};">
-  <link rel="stylesheet" href="css/style.css?v=20260316">
-</head>
-<body>
-  <header>
-    <div class="header-inner">
-      <div>
-        <h1>HarrisShutter</h1>
-        <p class="subtitle" id="subtitle">RGB/CYM channel fusion for Harris Shutter composites</p>
-      </div>
-      <div class="header-controls">
-        <div data-theme-toggle-host></div>
-        <div data-lang-switcher-host></div>
-      </div>
-    </div>
-  </header>
-
+---
+layout: tool_document
+redirect_path: /HarrisShutter
+meta_title: HarrisShutter - RGB/CYM Channel Fusion
+meta_description: Create Harris Shutter images by assigning source photos to RGB or CYM channels and exporting the fused result.
+og_title: HarrisShutter - RGB/CYM channel fusion
+icon_href: /HarrisShutter/assets/favicon.svg
+lang_mode: path
+with_manifest: true
+analytics_measurement_id: G-NB38N7JG5S
+webapp_application_category: PhotoApplication
+header_title: HarrisShutter
+header_subtitle: RGB/CYM channel fusion for Harris Shutter composites
+header_subtitle_id: subtitle
+intro_title: What is Harris Shutter?
+intro_text: Harris Shutter combines three photos by mapping each one to an independent channel. If there is motion between shots, it creates the characteristic color-shift effect. RGB works as additive light mixing and often looks strong on dark scenes; CYM is a subtractive-style mapping that can look striking on lighter backgrounds.
+footer_credits_html: |
+  <p id="footer-source">HR python version: <a href="https://gist.github.com/enheragu/4e3df5fcf7eb60f12ca76c28b74a0905" target="_blank" rel="noopener noreferrer">enheragu/harris_shutter.py</a></p>
+  <p id="footer-author">Author: <a href="https://enheragu.github.io/" target="_blank" rel="noopener noreferrer">Enrique Heredia-Aguado</a></p>
+custom_css:
+  - css/style.css
+custom_js:
+  - js/app.js
+---
+<!--THEME_BODY-->
   <div class="content-shell">
-    <section class="intro-panel">
-      <h2 id="intro-title">What is Harris Shutter?</h2>
-      <p id="intro-text">Harris Shutter combines three photos by mapping each one to an independent channel. If there is motion between shots, it creates the characteristic color-shift effect. RGB works as additive light mixing and often looks strong on dark scenes; CYM is a subtractive-style mapping that can look striking on lighter backgrounds.</p>
-    </section>
-
     <main>
       <section class="panel panel-controls">
         <div class="panel-header">
-          <h2 id="cfg-title">Fusion setup</h2>
+          {% include widgets/widget_section_heading.html
+            tag='h2'
+            title_id='cfg-title'
+            title_class='shared-panel-title'
+            title='Fusion setup'
+            emphasis='subtle'
+          %}
         </div>
 
         <div class="panel-block mode-actions-row">
           <div class="mode-view-cluster">
             <div class="mode-control">
               <label id="lbl-mode">Color mode</label>
-              <div class="shared-segmented-group mode-toggle" role="group" aria-labelledby="lbl-mode">
-                <button id="btn-mode-rgb" class="btn-ghost active" type="button" data-color-mode="RGB">RGB</button>
-                <button id="btn-mode-cym" class="btn-ghost" type="button" data-color-mode="CYM">CYM</button>
-                <button id="btn-mode-custom" class="btn-ghost" type="button" data-color-mode="CUSTOM">Custom</button>
+              <div class="shared-segmented-group shared-segmented-sm shared-segmented-3 mode-toggle" role="group" aria-labelledby="lbl-mode">
+                <button id="btn-mode-rgb" class="btn-ghost btn-sm active" type="button" data-color-mode="RGB">RGB</button>
+                <button id="btn-mode-cym" class="btn-ghost btn-sm" type="button" data-color-mode="CYM">CYM</button>
+                <button id="btn-mode-custom" class="btn-ghost btn-sm" type="button" data-color-mode="CUSTOM">Custom</button>
               </div>
             </div>
             <div class="custom-presets-col" id="custom-presets-row">
               <label id="lbl-custom-presets" class="custom-presets-label">Presets</label>
-              <div class="shared-segmented-group custom-presets" role="group" aria-labelledby="lbl-custom-presets">
-                <button id="btn-preset-autumn" class="btn-ghost" type="button" data-custom-preset="autumn">Autumn</button>
-                <button id="btn-preset-neon" class="btn-ghost" type="button" data-custom-preset="neon">Neon</button>
-                <button id="btn-preset-earth" class="btn-ghost" type="button" data-custom-preset="earth">Earth</button>
+              <div class="shared-segmented-group shared-segmented-sm shared-segmented-3 custom-presets" role="group" aria-labelledby="lbl-custom-presets">
+                <button id="btn-preset-autumn" class="btn-ghost btn-sm" type="button" data-custom-preset="autumn">Autumn</button>
+                <button id="btn-preset-neon" class="btn-ghost btn-sm" type="button" data-custom-preset="neon">Neon</button>
+                <button id="btn-preset-earth" class="btn-ghost btn-sm" type="button" data-custom-preset="earth">Earth</button>
               </div>
             </div>
             <div class="view-control">
               <label id="lbl-global-view">View</label>
-              <div class="shared-segmented-group" role="group" aria-labelledby="lbl-global-view">
-                <button id="btn-view-original" class="btn-ghost active" type="button" data-view-mode="original">Original</button>
-                <button id="btn-view-channel" class="btn-ghost" type="button" data-view-mode="channel">Channel</button>
+              <div class="shared-segmented-group shared-segmented-sm shared-segmented-2" role="group" aria-labelledby="lbl-global-view">
+                <button id="btn-view-original" class="btn-ghost btn-sm active" type="button" data-view-mode="original">Original</button>
+                <button id="btn-view-channel" class="btn-ghost btn-sm" type="button" data-view-mode="channel">Channel</button>
               </div>
             </div>
           </div>
-          <div class="action-inline">
+          <div class="action-inline shared-btn-group shared-btn-group--2">
             <button id="btn-generate" class="btn-primary" type="button">Generate fusion</button>
             <button id="btn-download" class="btn-secondary" type="button" disabled>Download image</button>
           </div>
@@ -144,7 +77,13 @@
 
           <article class="source-card" data-slot="0">
             <div class="panel-header subpanel-header source-card-header">
-              <h2 id="src1-title">Image 1</h2>
+              {% include widgets/widget_section_heading.html
+                tag='h2'
+                title_id='src1-title'
+                title_class='shared-panel-title'
+                title='Image 1'
+                emphasis='subtle'
+              %}
             </div>
             <div class="source-inline">
               <div class="file-picker-wrap">
@@ -156,25 +95,23 @@
               <div class="custom-color-control" data-custom-slot="0">
                 <button id="custom-swatch-0" class="custom-color-swatch" type="button" aria-label="Custom color 1" aria-expanded="false"></button>              </div>
             </div>
-            <div class="preview-wrap">
-              <canvas id="preview-0" width="320" height="180"></canvas>
-              <div class="preview-actions">
-                <button class="btn-chart-expand btn-preview-icon shared-icon-btn shared-icon-btn-sm btn-preview-expand" type="button" data-expand-target="preview-0" data-title-key="src1" aria-label="Expand image" title="Expand"></button>
-                <button class="btn-preview-icon shared-icon-btn shared-icon-btn-sm btn-preview-delete" type="button" data-clear-slot="0" aria-label="Clear image" title="Clear">
-                  <span aria-hidden="true" class="icon-trash">
-                    <svg viewBox="0 0 24 24" role="presentation" focusable="false">
-                      <path d="M4 7h16M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7m-8 0 1 12.5A1.5 1.5 0 0 0 9.49 21h5.02A1.5 1.5 0 0 0 16 19.5L17 7M10 11v6m4-6v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </span>
-                </button>
-              </div>
-              <p class="drop-overlay" id="src1-drop-hint">Drag &amp; drop image here or tap to choose</p>
-            </div>
+            {% include widgets/widget_image_card.html
+              slot='0'
+              canvas_id='preview-0'
+              file_input_id='file-0'
+              drop_hint_id='src1-drop-hint'
+            %}
           </article>
 
           <article class="source-card" data-slot="1">
             <div class="panel-header subpanel-header source-card-header">
-              <h2 id="src2-title">Image 2</h2>
+              {% include widgets/widget_section_heading.html
+                tag='h2'
+                title_id='src2-title'
+                title_class='shared-panel-title'
+                title='Image 2'
+                emphasis='subtle'
+              %}
             </div>
             <div class="source-inline">
               <div class="file-picker-wrap">
@@ -186,25 +123,23 @@
               <div class="custom-color-control" data-custom-slot="1">
                 <button id="custom-swatch-1" class="custom-color-swatch" type="button" aria-label="Custom color 2" aria-expanded="false"></button>              </div>
             </div>
-            <div class="preview-wrap">
-              <canvas id="preview-1" width="320" height="180"></canvas>
-              <div class="preview-actions">
-                <button class="btn-chart-expand btn-preview-icon shared-icon-btn shared-icon-btn-sm btn-preview-expand" type="button" data-expand-target="preview-1" data-title-key="src2" aria-label="Expand image" title="Expand"></button>
-                <button class="btn-preview-icon shared-icon-btn shared-icon-btn-sm btn-preview-delete" type="button" data-clear-slot="1" aria-label="Clear image" title="Clear">
-                  <span aria-hidden="true" class="icon-trash">
-                    <svg viewBox="0 0 24 24" role="presentation" focusable="false">
-                      <path d="M4 7h16M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7m-8 0 1 12.5A1.5 1.5 0 0 0 9.49 21h5.02A1.5 1.5 0 0 0 16 19.5L17 7M10 11v6m4-6v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </span>
-                </button>
-              </div>
-              <p class="drop-overlay" id="src2-drop-hint">Drag &amp; drop image here or tap to choose</p>
-            </div>
+            {% include widgets/widget_image_card.html
+              slot='1'
+              canvas_id='preview-1'
+              file_input_id='file-1'
+              drop_hint_id='src2-drop-hint'
+            %}
           </article>
 
           <article class="source-card" data-slot="2">
             <div class="panel-header subpanel-header source-card-header">
-              <h2 id="src3-title">Image 3</h2>
+              {% include widgets/widget_section_heading.html
+                tag='h2'
+                title_id='src3-title'
+                title_class='shared-panel-title'
+                title='Image 3'
+                emphasis='subtle'
+              %}
             </div>
             <div class="source-inline">
               <div class="file-picker-wrap">
@@ -216,30 +151,28 @@
               <div class="custom-color-control" data-custom-slot="2">
                 <button id="custom-swatch-2" class="custom-color-swatch" type="button" aria-label="Custom color 3" aria-expanded="false"></button>              </div>
             </div>
-            <div class="preview-wrap">
-              <canvas id="preview-2" width="320" height="180"></canvas>
-              <div class="preview-actions">
-                <button class="btn-chart-expand btn-preview-icon shared-icon-btn shared-icon-btn-sm btn-preview-expand" type="button" data-expand-target="preview-2" data-title-key="src3" aria-label="Expand image" title="Expand"></button>
-                <button class="btn-preview-icon shared-icon-btn shared-icon-btn-sm btn-preview-delete" type="button" data-clear-slot="2" aria-label="Clear image" title="Clear">
-                  <span aria-hidden="true" class="icon-trash">
-                    <svg viewBox="0 0 24 24" role="presentation" focusable="false">
-                      <path d="M4 7h16M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7m-8 0 1 12.5A1.5 1.5 0 0 0 9.49 21h5.02A1.5 1.5 0 0 0 16 19.5L17 7M10 11v6m4-6v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </span>
-                </button>
-              </div>
-              <p class="drop-overlay" id="src3-drop-hint">Drag &amp; drop image here or tap to choose</p>
-            </div>
+            {% include widgets/widget_image_card.html
+              slot='2'
+              canvas_id='preview-2'
+              file_input_id='file-2'
+              drop_hint_id='src3-drop-hint'
+            %}
           </article>
 
           <article class="source-card output-card">
             <div class="panel-header subpanel-header source-card-header">
-              <h2 id="out-title">Output</h2>
+              {% include widgets/widget_section_heading.html
+                tag='h2'
+                title_id='out-title'
+                title_class='shared-panel-title'
+                title='Output'
+                emphasis='subtle'
+              %}
             </div>
             <div class="preview-wrap output-wrap-inline">
               <canvas id="output-canvas" width="960" height="540"></canvas>
               <div class="preview-actions">
-                <button class="btn-chart-expand btn-preview-icon shared-icon-btn shared-icon-btn-sm btn-preview-expand" type="button" data-expand-target="output-canvas" data-title-key="out" aria-label="Expand image" title="Expand"></button>
+                <button class="btn-chart-expand btn-preview-icon shared-icon-btn shared-icon-btn-sm shared-icon-btn-accent btn-preview-expand" type="button" data-expand-target="output-canvas" data-title-key="out" aria-label="Expand image" title="Expand"></button>
               </div>
             </div>
           </article>
@@ -253,11 +186,17 @@
       <section class="panel panel-output-edits">
         <div class="output-edit-panel">
           <div class="panel-header subpanel-header output-edit-header">
-            <h2 id="output-edit-title">Output edits</h2>
+            {% include widgets/widget_section_heading.html
+              tag='h2'
+              title_id='output-edit-title'
+              title_class='shared-panel-title'
+              title='Output edits'
+              emphasis='subtle'
+            %}
             <button id="btn-output-reset" class="btn-secondary btn-reset-edits" type="button" disabled>Reset edits</button>
           </div>
           <p class="hint output-edit-hint" id="output-edit-hint">Basic non-destructive adjustments for the generated output before download.</p>
-          <div class="output-edit-grid">
+          <div class="output-edit-grid range-skin-vivid">
             <label class="shared-range-control" for="output-brightness">
               <span class="shared-range-label-row"><span id="lbl-output-brightness">Brightness</span><strong id="val-output-brightness" class="shared-range-value">0</strong></span>
               <input id="output-brightness" type="range" min="-100" max="100" step="1" value="0" disabled>
@@ -289,14 +228,6 @@
     </main>
   </div>
 
-  <footer class="site-footer">
-    <section id="related-work-root" class="related-work-root related-work-root-contextual"></section>
-    <div class="footer-credits">
-      <p id="footer-source">HR python version: <a href="https://gist.github.com/enheragu/4e3df5fcf7eb60f12ca76c28b74a0905" target="_blank" rel="noopener noreferrer">enheragu/harris_shutter.py</a></p>
-      <p id="footer-author">Author: <a href="https://enheragu.github.io/" target="_blank" rel="noopener noreferrer">Enrique Heredia-Aguado</a></p>
-    </div>
-  </footer>
-
   <section id="image-modal-overlay" class="chart-modal-overlay hidden" aria-hidden="true">
     <div class="image-modal" role="dialog" aria-modal="true" aria-labelledby="image-modal-title">
       <h3 id="image-modal-title" class="sr-only">Image preview</h3>
@@ -305,8 +236,8 @@
           <div id="image-modal-view-group" class="modal-view-group">
             <span id="lbl-image-modal-view" class="modal-view-label">View</span>
             <div class="shared-segmented-group shared-segmented-sm" role="group" aria-labelledby="lbl-image-modal-view">
-              <button id="btn-modal-view-original" class="btn-ghost active" type="button" data-view-mode="original">Original</button>
-              <button id="btn-modal-view-channel" class="btn-ghost" type="button" data-view-mode="channel">Channel</button>
+              <button id="btn-modal-view-original" class="btn-ghost btn-sm active" type="button" data-view-mode="original">Original</button>
+              <button id="btn-modal-view-channel" class="btn-ghost btn-sm" type="button" data-view-mode="channel">Channel</button>
             </div>
           </div>
           <button id="btn-close-image-modal" class="btn-preview-icon btn-modal-close shared-icon-btn shared-close-btn" type="button" aria-label="Close" title="Close">
@@ -338,7 +269,7 @@
 
   <dialog id="color-picker-dialog" class="panel custom-color-modal">
     <div class="panel-header subpanel-header">
-      <h2 id="color-picker-title">Choose a color</h2>
+      <h2 id="color-picker-title" class="shared-panel-title">Choose a color</h2>
       <button id="btn-close-color" class="btn-preview-icon btn-modal-close shared-icon-btn shared-close-btn" type="button" aria-label="Close" title="Close">
         <span aria-hidden="true" class="icon-close">
           <svg viewBox="0 0 24 24" role="presentation" focusable="false">
@@ -376,19 +307,3 @@
     </div>
   </dialog>
 
-  <script src="/assets/shared/ui-core.js" onerror="this.onerror=null;this.src='../assets/shared/ui-core.js';this.onerror=function(){this.onerror=null;this.src='https://enheragu.github.io/assets/shared/ui-core.js';};"></script>
-  <script>
-    if (window.SharedUiCore) {
-      if (typeof window.SharedUiCore.ensureThemeToggleMarkup === 'function') {
-        window.SharedUiCore.ensureThemeToggleMarkup({ hostSelector: '[data-theme-toggle-host]' });
-      }
-      if (typeof window.SharedUiCore.ensureLangSwitcherMarkup === 'function') {
-        window.SharedUiCore.ensureLangSwitcherMarkup({ hostSelector: '[data-lang-switcher-host]', includeId: false });
-      }
-    }
-  </script>
-  <script src="/assets/shared/related-work.js" onerror="this.onerror=null;this.src='../assets/shared/related-work.js';this.onerror=function(){this.onerror=null;this.src='https://enheragu.github.io/assets/shared/related-work.js';};"></script>
-  <script src="js/app.js"></script>
-
-</body>
-</html>

@@ -8,3 +8,15 @@ Thumbs.db
 *.tmp
 *.swp
 *.swo
+
+# Local Jekyll preview artifacts
+_site/
+.jekyll-cache/
+_config.local.yml
+_includes/tool_*.html
+
+# Python
+__pycache__/
+*.pyc
+.mypy_cache/
+

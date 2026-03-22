@@ -1,5 +1,11 @@
 :root {
   --panel-gap: 1rem;
+  --clr-channel-r: var(--clr-danger, var(--clr-data-red, var(--pal-red, #f85149)));
+  --clr-channel-g: var(--clr-status-success, var(--clr-data-green, var(--pal-green, #3fb950)));
+  --clr-channel-b: var(--clr-data-blue, var(--pal-blue, #58a6ff));
+  --clr-channel-c: color-mix(in oklab, var(--clr-data-blue, var(--pal-blue, #58a6ff)) 82%, white);
+  --clr-channel-y: var(--clr-data-amber, var(--pal-amber, #d29922));
+  --clr-channel-m: var(--clr-data-purple, var(--pal-purple, #bc8cff));
 }
 
 body {
@@ -8,11 +14,7 @@ body {
 
 .header-controls { flex-shrink: 0; }
 
-/* Shared controls live in /assets/shared/controls.css.
-   Keep only local asset-path-specific flag URLs here. */
-
-.flag-gb { background-image: url('../assets/flags/gb.svg'); }
-.flag-es { background-image: url('../assets/flags/es.svg'); }
+/* Shared controls live in /assets/shared/controls.css. */
 
 main {
   display: grid;
@@ -134,8 +136,10 @@ select {
   font-weight: var(--txt-w-semibold, 600);
 }
 
+
 .source-card-header {
   gap: 0;
+  border-bottom: none;
 }
 
 .source-inline {
@@ -222,7 +226,7 @@ select {
   border: 1px solid color-mix(in oklab, var(--clr-border) 75%, transparent);
   border-radius: 8px;
   background: color-mix(in oklab, var(--clr-panel) 92%, var(--clr-surface));
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
+  box-shadow: var(--shadow-panel);
   z-index: 12;
 }
 
@@ -337,39 +341,39 @@ select {
 }
 
 .source-inline select.channel-r {
-  border-color: color-mix(in oklab, var(--sig-red) 52%, var(--clr-border));
-  background: color-mix(in oklab, var(--sig-red) 16%, var(--clr-surface));
-  color: color-mix(in oklab, var(--sig-red) 85%, var(--clr-text));
+  border-color: color-mix(in oklab, var(--clr-channel-r) 52%, var(--clr-border));
+  background: color-mix(in oklab, var(--clr-channel-r) 16%, var(--clr-surface));
+  color: color-mix(in oklab, var(--clr-channel-r) 85%, var(--clr-text));
 }
 
 .source-inline select.channel-g {
-  border-color: color-mix(in oklab, var(--sig-green) 52%, var(--clr-border));
-  background: color-mix(in oklab, var(--sig-green) 16%, var(--clr-surface));
-  color: color-mix(in oklab, var(--sig-green) 85%, var(--clr-text));
+  border-color: color-mix(in oklab, var(--clr-channel-g) 52%, var(--clr-border));
+  background: color-mix(in oklab, var(--clr-channel-g) 16%, var(--clr-surface));
+  color: color-mix(in oklab, var(--clr-channel-g) 85%, var(--clr-text));
 }
 
 .source-inline select.channel-b {
-  border-color: color-mix(in oklab, var(--sig-blue) 52%, var(--clr-border));
-  background: color-mix(in oklab, var(--sig-blue) 16%, var(--clr-surface));
-  color: color-mix(in oklab, var(--sig-blue) 85%, var(--clr-text));
+  border-color: color-mix(in oklab, var(--clr-channel-b) 52%, var(--clr-border));
+  background: color-mix(in oklab, var(--clr-channel-b) 16%, var(--clr-surface));
+  color: color-mix(in oklab, var(--clr-channel-b) 85%, var(--clr-text));
 }
 
 .source-inline select.channel-c {
-  border-color: color-mix(in oklab, var(--sig-blue) 52%, var(--clr-border));
-  background: color-mix(in oklab, var(--sig-blue) 16%, var(--clr-surface));
-  color: color-mix(in oklab, var(--sig-blue) 85%, var(--clr-text));
+  border-color: color-mix(in oklab, var(--clr-channel-c) 52%, var(--clr-border));
+  background: color-mix(in oklab, var(--clr-channel-c) 16%, var(--clr-surface));
+  color: color-mix(in oklab, var(--clr-channel-c) 85%, var(--clr-text));
 }
 
 .source-inline select.channel-y {
-  border-color: color-mix(in oklab, var(--sig-amber) 52%, var(--clr-border));
-  background: color-mix(in oklab, var(--sig-amber) 16%, var(--clr-surface));
-  color: color-mix(in oklab, var(--sig-amber) 85%, var(--clr-text));
+  border-color: color-mix(in oklab, var(--clr-channel-y) 52%, var(--clr-border));
+  background: color-mix(in oklab, var(--clr-channel-y) 16%, var(--clr-surface));
+  color: color-mix(in oklab, var(--clr-channel-y) 85%, var(--clr-text));
 }
 
 .source-inline select.channel-m {
-  border-color: color-mix(in oklab, var(--sig-purple) 52%, var(--clr-border));
-  background: color-mix(in oklab, var(--sig-purple) 16%, var(--clr-surface));
-  color: color-mix(in oklab, var(--sig-purple) 85%, var(--clr-text));
+  border-color: color-mix(in oklab, var(--clr-channel-m) 52%, var(--clr-border));
+  background: color-mix(in oklab, var(--clr-channel-m) 16%, var(--clr-surface));
+  color: color-mix(in oklab, var(--clr-channel-m) 85%, var(--clr-text));
 }
 
 .preview-wrap {
@@ -398,20 +402,7 @@ select {
   z-index: 3;
 }
 
-.btn-preview-expand::before {
-  color: var(--clr-primary);
-  font-size: var(--txt-md-plus, .9rem);
-}
 
-.btn-preview-expand {
-  border-color: var(--clr-primary);
-  color: var(--clr-primary);
-}
-
-.btn-preview-expand:hover {
-  background: color-mix(in oklab, var(--clr-primary) 14%, transparent);
-  border-color: var(--clr-primary);
-}
 
 .icon-trash,
 .icon-trash svg {
@@ -420,15 +411,7 @@ select {
   display: block;
 }
 
-.btn-preview-delete {
-  border-color: color-mix(in oklab, var(--sig-red) 45%, var(--clr-border));
-  color: var(--sig-red);
-}
 
-.btn-preview-delete:hover {
-  background: color-mix(in oklab, var(--sig-red) 16%, var(--clr-surface));
-  border-color: var(--sig-red);
-}
 
 .drop-overlay {
   position: absolute;
@@ -485,7 +468,7 @@ select {
   z-index: 2200;
   align-items: center;
   padding-top: 0;
-  background: rgba(0, 0, 0, 0.74);
+  background: var(--clr-overlay-strong);
   backdrop-filter: blur(2px);
 }
 
@@ -517,21 +500,8 @@ select {
   margin-left: 0;
 }
 
-.mode-toggle .btn-ghost,
-.view-control .shared-segmented-group .btn-ghost {
-  min-width: 0;
-  padding-left: .65rem;
-  padding-right: .65rem;
-}
-
 .shared-segmented-sm {
   border-radius: 6px;
-}
-
-.shared-segmented-sm .btn-ghost {
-  min-height: 28px;
-  padding: .28rem .5rem;
-  font-size: var(--txt-sm, .76rem);
 }
 
 .image-modal-body {
@@ -639,12 +609,6 @@ select {
   min-width: 0;
 }
 
-.mode-toggle .btn-ghost {
-  min-width: 0;
-  padding-left: .65rem;
-  padding-right: .65rem;
-}
-
 .custom-presets-col {
   margin-top: 0;
   display: none;
@@ -664,20 +628,6 @@ select {
 
 .custom-presets {
   margin-left: 0;
-}
-
-.custom-presets .btn-ghost {
-  min-width: 56px;
-  font-size: var(--txt-xs, .74rem);
-  padding: .3rem .5rem;
-}
-
-
-
-.action-inline {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 8px;
 }
 
 .controls-row {
@@ -704,14 +654,13 @@ select {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  margin: -.75rem -1rem 0;
+  padding: .7rem 1rem .55rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--clr-border) 75%, transparent);
 }
 
 .output-edit-header h2 {
   margin: 0;
-}
-
-.btn-reset-edits {
-  min-width: 92px;
 }
 
 .output-edit-hint {
@@ -724,10 +673,6 @@ select {
   gap: 12px 16px;
 }
 
-.range-control {
-  margin: 0;
-}
-
 .hint {
   margin: 0;
   color: var(--clr-muted);
@@ -735,11 +680,11 @@ select {
 }
 
 .hint[data-type='error'] {
-  color: #ff8f8f;
+  color: var(--clr-status-error);
 }
 
 .hint[data-type='ok'] {
-  color: #8fe8b0;
+  color: var(--clr-status-success);
 }
 
 #output-canvas {
@@ -748,20 +693,6 @@ select {
   border-radius: 0;
   border: 0;
   background: transparent;
-}
-
-.footer-credits {
-  text-align: center;
-  margin-top: 20px;
-  color: var(--clr-muted);
-}
-
-.footer-credits p {
-  margin: 6px 0;
-}
-
-.footer-credits a {
-  color: var(--accent, #58a6ff);
 }
 
 @media (max-width: 980px) {
@@ -828,10 +759,10 @@ select {
   max-width: 90vw;
   max-height: min(92vh, 640px);
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: var(--shadow-dialog);
 }
 .custom-color-modal::backdrop {
-  background: rgba(8, 12, 20, 0.62);
+  background: var(--clr-overlay-tinted);
   backdrop-filter: blur(2px);
 }
 .custom-color-modal[open] {
@@ -908,7 +839,7 @@ select {
   height: 12px;
   border-radius: 999px;
   border: 2px solid #fff;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.35);
+  box-shadow: var(--shadow-thumb-ring);
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 2;
@@ -939,7 +870,7 @@ select {
   border-radius: 999px;
   border: 2px solid #fff;
   background: var(--clr-primary);
-  box-shadow: 0 0 0 1px rgba(0,0,0,.35);
+  box-shadow: var(--shadow-thumb-ring);
 }
 .custom-hue-range::-moz-range-thumb {
   width: 14px;
@@ -947,7 +878,7 @@ select {
   border-radius: 999px;
   border: 2px solid #fff;
   background: var(--clr-primary);
-  box-shadow: 0 0 0 1px rgba(0,0,0,.35);
+  box-shadow: var(--shadow-thumb-ring);
 }
 .custom-color-modal .custom-rgb-row {
   display: flex;

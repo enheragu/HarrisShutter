@@ -17,7 +17,7 @@
     earth: ['#7B5E3B', '#B08E5A', '#4D7A4A']
   };
 
-  const i18n = {
+  const i18nTranslations = {
     en: {
       subtitle: 'RGB/CYM channel fusion for Harris Shutter composites',
       introTitle: 'What is Harris Shutter?',
@@ -122,6 +122,8 @@
     }
   };
 
+  const i18nApi = window.SharedI18nCore.createI18n(i18nTranslations);
+
   const state = {
     lang: 'en',
     theme: 'dark',
@@ -147,13 +149,27 @@
     customPreset: null,
     activeCustomSlot: null,
     pickerHsv: { h: 0, s: 0, v: 100 },
-    modalItemKey: null
+    modalItemKey: null,
+    outputRenderMode: 'idle',
+    outputPreviewScale: 0.42,
+    outputPreviewMinScale: 0.12,
+    outputPreviewMaxPixels: 7000,
+    outputPreviewFastMaxPixels: 5000,
+    outputCurrentPreviewMaxPixels: 7000,
+    outputPreviewMaxDimension: 256,
+    outputPreviewMinIntervalMs: 64,
+    outputInteractionActive: false,
+    outputInteractionTimer: 0,
+    outputPreviewThrottleTimer: 0,
+    outputLastPreviewAt: 0,
+    outputRenderScheduler: null,
+    outputLastPreviewSignature: '',
+    outputLastQueuedPreviewSignature: '',
+    outputLastFullSignature: ''
   };
 
   const dom = {
     themeButton: document.getElementById('btn-theme'),
-    btnEn: document.getElementById('btn-en'),
-    btnEs: document.getElementById('btn-es'),
     subtitle: document.getElementById('subtitle'),
     introTitle: document.getElementById('intro-title'),
     introText: document.getElementById('intro-text'),
@@ -181,7 +197,6 @@
     sourceCards: Array.from(document.querySelectorAll('.source-card[data-slot]')),
     sourceGrid: document.getElementById('source-grid'),
     workflowSymbols: document.querySelector('.workflow-symbols'),
-    langSwitcher: document.querySelector('.lang-switcher'),
     expandButtons: Array.from(document.querySelectorAll('.btn-preview-expand')),
     clearButtons: Array.from(document.querySelectorAll('.btn-preview-delete')),
     fileInputs: [
@@ -267,58 +282,8 @@
     modalPaletteChips: Array.from(document.querySelectorAll('#color-picker-dialog .palette-chip'))
   };
 
-  function detectLanguage() {
-    const p = new URLSearchParams(window.location.search);
-    const qLang = (p.get('lang') || '').toLowerCase();
-    if (qLang === 'es' || qLang === 'en') return qLang;
-    const browser = (navigator.language || 'en').toLowerCase();
-    return browser.startsWith('es') ? 'es' : 'en';
-  }
-
-  function setTheme(theme, animate = true) {
-    state.theme = theme === 'light' ? 'light' : 'dark';
-
-    if (window.SharedUiCore?.setThemeForDocument) {
-      window.SharedUiCore.setThemeForDocument(state.theme, { themeButtonId: 'btn-theme', syncDataTheme: true });
-    } else {
-      document.body.classList.toggle('dark', state.theme === 'dark');
-      document.documentElement.classList.toggle('dark', state.theme === 'dark');
-    }
-
-    if (dom.themeButton) {
-      dom.themeButton.setAttribute('aria-pressed', state.theme === 'dark' ? 'true' : 'false');
-      if (animate) {
-        if (window.SharedUiCore?.animateThemeButton) {
-          window.SharedUiCore.animateThemeButton(dom.themeButton, 420);
-        } else {
-          dom.themeButton.classList.remove('is-animating');
-          void dom.themeButton.offsetWidth;
-          dom.themeButton.classList.add('is-animating');
-          window.setTimeout(() => dom.themeButton.classList.remove('is-animating'), 420);
-        }
-      }
-    }
-
-    try {
-      localStorage.setItem('theme', state.theme);
-    } catch (_e) {}
-  }
-
-  function initTheme() {
-    let saved = 'dark';
-    try {
-      saved = localStorage.getItem('theme') || 'dark';
-    } catch (_e) {
-      saved = 'dark';
-    }
-    setTheme(saved === 'light' ? 'light' : 'dark', false);
-    dom.themeButton?.addEventListener('click', () => {
-      const next = window.SharedUiCore?.toggleThemeValue
-        ? window.SharedUiCore.toggleThemeValue(state.theme)
-        : (state.theme === 'dark' ? 'light' : 'dark');
-      setTheme(next, true);
-    });
-  }
+  // SharedImageCard instances (one per source slot), initialised in init()
+  let imageCards = [];
 
   function normalizeHexColor(value, fallback = '#808080') {
     const raw = String(value || '').trim().replace(/^#/, '');
@@ -494,7 +459,7 @@
   }
 
   function applyTranslations() {
-    const t = i18n[state.lang];
+    const t = i18nApi.getCopy(state.lang);
     dom.subtitle.textContent = t.subtitle;
     dom.introTitle.textContent = t.introTitle;
     dom.introText.textContent = t.introText;
@@ -592,27 +557,23 @@
     }
   }
 
-  function initLanguage() {
-    const lang = detectLanguage();
-    setLanguage(lang, false);
-
-    dom.langSwitcher?.addEventListener('click', (event) => {
-      event.preventDefault();
-      setLanguage(state.lang === 'en' ? 'es' : 'en', true);
+  function initShell() {
+    const shell = window.SharedToolPageShell.initToolPage({
+      fallbackLang: 'en',
+      i18nApi: i18nApi,
+      onApplyLanguage: (copy, lang) => {
+        state.lang = lang;
+        applyTranslations();
+      },
+      onApplyTheme: (theme) => {
+        state.theme = theme;
+        window.SharedUiCore?.setThemeForDocument(theme, { themeButtonId: 'btn-theme', syncDataTheme: true });
+      },
     });
-  }
-
-  function setLanguage(lang, updateUrl) {
-    state.lang = lang === 'es' ? 'es' : 'en';
-    dom.btnEn?.classList.toggle('active', state.lang === 'en');
-    dom.btnEs?.classList.toggle('active', state.lang === 'es');
-    dom.langSwitcher?.classList.toggle('lang-es', state.lang === 'es');
+    state.lang = shell.lang;
+    state.theme = shell.theme;
+    shell.applyTheme();
     applyTranslations();
-    if (updateUrl) {
-      const url = new URL(window.location.href);
-      url.searchParams.set('lang', state.lang);
-      history.replaceState(null, '', url.toString());
-    }
   }
 
   function setStatus(type, text) {
@@ -624,7 +585,7 @@
   }
 
   function updateVisibleFileNames() {
-    const t = i18n[state.lang];
+    const t = i18nApi.getCopy(state.lang);
     state.slots.forEach((slot, index) => {
       const text = slot.fileName || t.noImageSelected;
       if (dom.fileNameDisplays[index]) dom.fileNameDisplays[index].textContent = text;
@@ -632,7 +593,7 @@
   }
 
   function updateDropHints() {
-    const t = i18n[state.lang];
+    const t = i18nApi.getCopy(state.lang);
     state.slots.forEach((slot, index) => {
       const card = dom.sourceCards[index];
       if (card) {
@@ -765,6 +726,10 @@
     updateVisibleFileNames();
     updateDropHints();
     invalidateOutputForInputChange();
+    // Sync SharedImageCard's internal state for sample loads (user loads are synced via onLoad callback)
+    if (isSample && imageCards[slotIndex]) {
+      imageCards[slotIndex].setImage(img, fileName || '');
+    }
   }
 
   function clearSlot(slotIndex) {
@@ -787,20 +752,6 @@
       img.onload = () => resolve(img);
       img.onerror = reject;
       img.src = url;
-    });
-  }
-
-  function loadImageFromFile(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const img = new Image();
-        img.onload = () => resolve(img);
-        img.onerror = reject;
-        img.src = reader.result;
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
     });
   }
 
@@ -943,55 +894,232 @@
     updateOutputAdjustmentValueLabels();
   }
 
-  function renderOutputFromBase() {
+  function ensureOutputRenderScheduler() {
+    if (state.outputRenderScheduler) return state.outputRenderScheduler;
+    const factory = window.SharedUiCore?.createRafScheduler;
+    if (typeof factory !== 'function') return null;
+
+    state.outputRenderScheduler = factory(() => {
+      const renderMode = state.outputRenderMode === 'preview' ? 'preview' : 'full';
+      state.outputRenderMode = 'idle';
+      renderOutputFromBase({ preview: renderMode === 'preview', previewScale: state.outputPreviewScale });
+    });
+
+    return state.outputRenderScheduler;
+  }
+
+  function quantizePreviewAdjustment(key, value) {
+    const steps = {
+      brightness: 6,
+      contrast: 6,
+      temperature: 8,
+      tint: 8,
+      saturation: 6,
+      gamma: 6
+    };
+    const step = steps[key] || 2;
+    const numeric = Number(value) || 0;
+    return Math.round(numeric / step) * step;
+  }
+
+  function getPreviewAdjustments() {
+    return {
+      brightness: quantizePreviewAdjustment('brightness', state.outputAdjustments.brightness),
+      contrast: quantizePreviewAdjustment('contrast', state.outputAdjustments.contrast),
+      temperature: quantizePreviewAdjustment('temperature', state.outputAdjustments.temperature),
+      tint: quantizePreviewAdjustment('tint', state.outputAdjustments.tint),
+      saturation: quantizePreviewAdjustment('saturation', state.outputAdjustments.saturation),
+      gamma: quantizePreviewAdjustment('gamma', state.outputAdjustments.gamma)
+    };
+  }
+
+  function getPreviewAdjustmentsSignature() {
+    const q = getPreviewAdjustments();
+    return `${q.brightness}|${q.contrast}|${q.temperature}|${q.tint}|${q.saturation}|${q.gamma}`;
+  }
+
+  function resolveOutputPreviewScale(baseWidth, baseHeight, requestedScale, maxPixelsOverride) {
+    const preferredScale = Math.max(state.outputPreviewMinScale, Math.min(1, Number(requestedScale) || state.outputPreviewScale));
+    const maxPixels = Number(maxPixelsOverride || state.outputPreviewMaxPixels) || 0;
+    const maxDimension = Number(state.outputPreviewMaxDimension) || 0;
+    const dimScale = maxDimension > 0 && baseWidth && baseHeight
+      ? Math.min(1, maxDimension / Math.max(baseWidth, baseHeight))
+      : 1;
+    if (!maxPixels || !baseWidth || !baseHeight) return preferredScale;
+    const adaptiveScale = Math.sqrt(maxPixels / (baseWidth * baseHeight));
+    return Math.max(state.outputPreviewMinScale, Math.min(preferredScale, adaptiveScale, dimScale, 1));
+  }
+
+  function scheduleOutputRender(mode = 'full') {
     if (!state.outputBaseImageData || !dom.outputCanvas) return;
-    const base = state.outputBaseImageData;
-    const ctx = dom.outputCanvas.getContext('2d');
-    const out = new ImageData(new Uint8ClampedArray(base.data), base.width, base.height);
+    const requestedMode = mode === 'preview' ? 'preview' : 'full';
+    const scheduler = ensureOutputRenderScheduler();
+    const hasPending = Boolean(scheduler?.isScheduled?.());
 
-    const brightness = state.outputAdjustments.brightness * 2.55;
-    const contrastFactor = 1 + (state.outputAdjustments.contrast / 100);
-    const temperature = state.outputAdjustments.temperature * 1.2;
-    const tint = state.outputAdjustments.tint * 1.2;
-    const saturationFactor = 1 + (state.outputAdjustments.saturation / 100);
-    const gammaSlider = state.outputAdjustments.gamma;
-    const gamma = gammaSlider >= 0 ? 1 / (1 + gammaSlider / 100) : 1 - gammaSlider / 100;
-
-    for (let i = 0; i < out.data.length; i += 4) {
-      let r = out.data[i];
-      let g = out.data[i + 1];
-      let b = out.data[i + 2];
-
-      r = (r - 127.5) * contrastFactor + 127.5 + brightness;
-      g = (g - 127.5) * contrastFactor + 127.5 + brightness;
-      b = (b - 127.5) * contrastFactor + 127.5 + brightness;
-
-      r += temperature;
-      b -= temperature;
-      g += tint;
-      r -= tint * 0.5;
-      b -= tint * 0.5;
-
-      const gray = 0.299 * r + 0.587 * g + 0.114 * b;
-      r = gray + (r - gray) * saturationFactor;
-      g = gray + (g - gray) * saturationFactor;
-      b = gray + (b - gray) * saturationFactor;
-
-      r = 255 * Math.pow(Math.max(0, Math.min(1, r / 255)), gamma);
-      g = 255 * Math.pow(Math.max(0, Math.min(1, g / 255)), gamma);
-      b = 255 * Math.pow(Math.max(0, Math.min(1, b / 255)), gamma);
-
-      out.data[i] = clampByte(r);
-      out.data[i + 1] = clampByte(g);
-      out.data[i + 2] = clampByte(b);
+    if (requestedMode === 'full') {
+      state.outputRenderMode = 'full';
+    } else if (!(hasPending && state.outputRenderMode === 'full')) {
+      state.outputRenderMode = 'preview';
     }
 
-    dom.outputCanvas.width = base.width;
-    dom.outputCanvas.height = base.height;
-    ctx.putImageData(out, 0, 0);
+    if (scheduler) {
+      scheduler.schedule();
+      return;
+    }
+
+    renderOutputFromBase({ preview: requestedMode === 'preview', previewScale: state.outputPreviewScale });
+  }
+
+  function clearOutputInteractionTimer() {
+    if (!state.outputInteractionTimer) return;
+    clearTimeout(state.outputInteractionTimer);
+    state.outputInteractionTimer = 0;
+  }
+
+  function clearOutputPreviewThrottleTimer() {
+    if (!state.outputPreviewThrottleTimer) return;
+    clearTimeout(state.outputPreviewThrottleTimer);
+    state.outputPreviewThrottleTimer = 0;
+  }
+
+  function queueOutputPreviewRender() {
+    const now = performance.now();
+    state.outputCurrentPreviewMaxPixels = state.outputPreviewFastMaxPixels;
+
+    state.outputInteractionActive = true;
+    clearOutputInteractionTimer();
+    const previewSig = getPreviewAdjustmentsSignature();
+    if (previewSig !== state.outputLastQueuedPreviewSignature) {
+      state.outputLastQueuedPreviewSignature = previewSig;
+      const elapsed = now - state.outputLastPreviewAt;
+      if (elapsed >= state.outputPreviewMinIntervalMs) {
+        clearOutputPreviewThrottleTimer();
+        scheduleOutputRender('preview');
+      } else if (!state.outputPreviewThrottleTimer) {
+        const waitMs = Math.max(0, state.outputPreviewMinIntervalMs - elapsed);
+        state.outputPreviewThrottleTimer = window.setTimeout(() => {
+          state.outputPreviewThrottleTimer = 0;
+          scheduleOutputRender('preview');
+        }, waitMs);
+      }
+    }
+
+    state.outputInteractionTimer = window.setTimeout(() => {
+      finishOutputSliderInteraction();
+    }, 140);
+  }
+
+  function finishOutputSliderInteraction(force = false) {
+    clearOutputInteractionTimer();
+    clearOutputPreviewThrottleTimer();
+    const hadInteraction = state.outputInteractionActive;
+    state.outputInteractionActive = false;
+    state.outputCurrentPreviewMaxPixels = state.outputPreviewMaxPixels;
+    state.outputLastQueuedPreviewSignature = '';
+    if (hadInteraction || force) {
+      scheduleOutputRender('full');
+    }
+  }
+
+  function renderOutputFromBase(options = {}) {
+    if (!state.outputBaseImageData || !dom.outputCanvas) return;
+    const base = state.outputBaseImageData;
+    const source = base.data;
+    const baseWidth = base.width;
+    const baseHeight = base.height;
+    const previewRequested = options.preview === true;
+    const renderAdjustments = previewRequested ? getPreviewAdjustments() : state.outputAdjustments;
+    const previewScale = resolveOutputPreviewScale(baseWidth, baseHeight, options.previewScale, state.outputCurrentPreviewMaxPixels);
+    const renderWidth = previewRequested ? Math.max(1, Math.round(baseWidth * previewScale)) : baseWidth;
+    const renderHeight = previewRequested ? Math.max(1, Math.round(baseHeight * previewScale)) : baseHeight;
+    const usePreviewSampling = renderWidth !== baseWidth || renderHeight !== baseHeight;
+    const renderSignature = `${previewRequested ? 'p' : 'f'}:${renderWidth}x${renderHeight}:${renderAdjustments.brightness}|${renderAdjustments.contrast}|${renderAdjustments.temperature}|${renderAdjustments.tint}|${renderAdjustments.saturation}|${renderAdjustments.gamma}`;
+
+    if (previewRequested && renderSignature === state.outputLastPreviewSignature) {
+      return;
+    }
+    if (!previewRequested && renderSignature === state.outputLastFullSignature) {
+      return;
+    }
+
+    const ctx = dom.outputCanvas.getContext('2d');
+    const out = new ImageData(renderWidth, renderHeight);
+
+    const brightness = renderAdjustments.brightness * 2.55;
+    const contrastFactor = 1 + (renderAdjustments.contrast / 100);
+    const temperature = renderAdjustments.temperature * 1.2;
+    const tint = renderAdjustments.tint * 1.2;
+    const saturationFactor = 1 + (renderAdjustments.saturation / 100);
+    const gammaSlider = renderAdjustments.gamma;
+    const gamma = gammaSlider >= 0 ? 1 / (1 + gammaSlider / 100) : 1 - gammaSlider / 100;
+
+    const xScale = baseWidth / renderWidth;
+    const yScale = baseHeight / renderHeight;
+
+    for (let y = 0; y < renderHeight; y += 1) {
+      const srcY = usePreviewSampling ? Math.min(baseHeight - 1, Math.floor((y + 0.5) * yScale)) : y;
+      for (let x = 0; x < renderWidth; x += 1) {
+        const srcX = usePreviewSampling ? Math.min(baseWidth - 1, Math.floor((x + 0.5) * xScale)) : x;
+        const srcIndex = (srcY * baseWidth + srcX) * 4;
+        const outIndex = (y * renderWidth + x) * 4;
+
+        let r = source[srcIndex];
+        let g = source[srcIndex + 1];
+        let b = source[srcIndex + 2];
+
+        r = (r - 127.5) * contrastFactor + 127.5 + brightness;
+        g = (g - 127.5) * contrastFactor + 127.5 + brightness;
+        b = (b - 127.5) * contrastFactor + 127.5 + brightness;
+
+        r += temperature;
+        b -= temperature;
+        g += tint;
+        r -= tint * 0.5;
+        b -= tint * 0.5;
+
+        const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+        r = gray + (r - gray) * saturationFactor;
+        g = gray + (g - gray) * saturationFactor;
+        b = gray + (b - gray) * saturationFactor;
+
+        r = 255 * Math.pow(Math.max(0, Math.min(1, r / 255)), gamma);
+        g = 255 * Math.pow(Math.max(0, Math.min(1, g / 255)), gamma);
+        b = 255 * Math.pow(Math.max(0, Math.min(1, b / 255)), gamma);
+
+        out.data[outIndex] = clampByte(r);
+        out.data[outIndex + 1] = clampByte(g);
+        out.data[outIndex + 2] = clampByte(b);
+        out.data[outIndex + 3] = 255;
+      }
+    }
+
+    dom.outputCanvas.width = baseWidth;
+    dom.outputCanvas.height = baseHeight;
+
+    if (!usePreviewSampling) {
+      ctx.putImageData(out, 0, 0);
+    } else {
+      if (!state.outputPreviewCanvas) state.outputPreviewCanvas = document.createElement('canvas');
+      const previewCanvas = state.outputPreviewCanvas;
+      previewCanvas.width = renderWidth;
+      previewCanvas.height = renderHeight;
+      const previewCtx = previewCanvas.getContext('2d');
+      previewCtx.putImageData(out, 0, 0);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.clearRect(0, 0, baseWidth, baseHeight);
+      ctx.drawImage(previewCanvas, 0, 0, baseWidth, baseHeight);
+    }
 
     if (!dom.imageModalOverlay.classList.contains('hidden') && state.modalItemKey === 'out') {
       renderModalCurrentItem();
+    }
+
+    if (previewRequested) {
+      state.outputLastPreviewSignature = renderSignature;
+      state.outputLastPreviewAt = performance.now();
+    } else {
+      state.outputLastFullSignature = renderSignature;
     }
   }
 
@@ -1049,6 +1177,10 @@
     }
 
     state.outputBaseImageData = new ImageData(outData, width, height);
+    state.outputLastPreviewSignature = '';
+    state.outputLastQueuedPreviewSignature = '';
+    state.outputLastFullSignature = '';
+    state.outputLastPreviewAt = 0;
     state.outputReady = true;
     setOutputEditControlsEnabled(true);
     dom.downloadButton.disabled = false;
@@ -1083,7 +1215,7 @@
   }
 
   function getModalTitleForKey(key) {
-    const t = i18n[state.lang];
+    const t = i18nApi.getCopy(state.lang);
     if (key === 'out') return t.output;
     const idx = Number(key.replace('src', ''));
     return `${t.source} ${idx + 1}`;
@@ -1117,9 +1249,9 @@
   function openImageModalByTarget(targetId) {
     if (!targetId) return;
     let key = null;
-    if (targetId === 'preview-0') key = 'src0';
-    if (targetId === 'preview-1') key = 'src1';
-    if (targetId === 'preview-2') key = 'src2';
+    if (targetId === 'preview-0' || targetId === '0') key = 'src0';
+    if (targetId === 'preview-1' || targetId === '1') key = 'src1';
+    if (targetId === 'preview-2' || targetId === '2') key = 'src2';
     if (targetId === 'output-canvas') key = 'out';
     if (!key) return;
 
@@ -1165,44 +1297,6 @@
       if (event.key === 'Escape') closeImageModal();
       if (event.key === 'ArrowLeft') navigateImageModal(-1);
       if (event.key === 'ArrowRight') navigateImageModal(1);
-    });
-  }
-
-  function initDragAndDrop() {
-    dom.sourceCards.forEach((card, index) => {
-      const input = dom.fileInputs[index];
-      const preview = card.querySelector('.preview-wrap');
-
-      const openPicker = () => input?.click();
-
-      preview?.addEventListener('click', openPicker);
-
-      ['dragenter', 'dragover'].forEach((evt) => {
-        card.addEventListener(evt, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          card.classList.add('is-drag-over');
-        });
-      });
-
-      ['dragleave', 'drop'].forEach((evt) => {
-        card.addEventListener(evt, (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          card.classList.remove('is-drag-over');
-        });
-      });
-
-      card.addEventListener('drop', async (e) => {
-        const file = e.dataTransfer?.files?.[0];
-        if (!file) return;
-        try {
-          const img = await loadImageFromFile(file);
-          setSlotImage(index, img, file.name, false);
-        } catch (_e) {
-          setStatus('error', i18n[state.lang].statusNeedImages);
-        }
-      });
     });
   }
 
@@ -1388,33 +1482,10 @@
       });
     });
 
-    dom.fileInputs.forEach((input, index) => {
-      input?.addEventListener('change', async () => {
-        const file = input.files?.[0];
-        if (!file) return;
-        try {
-          const img = await loadImageFromFile(file);
-          setSlotImage(index, img, file.name, false);
-        } catch (_e) {
-          setStatus('error', i18n[state.lang].statusNeedImages);
-        } finally {
-          input.value = '';
-        }
-      });
-    });
-
-    dom.clearButtons.forEach((btn) => {
-      btn?.addEventListener('click', (event) => {
-        event.stopPropagation();
-        const slot = Number(btn.dataset.clearSlot);
-        if (Number.isFinite(slot)) clearSlot(slot);
-      });
-    });
-
     dom.expandButtons.forEach((btn) => {
       btn?.addEventListener('click', (event) => {
         event.stopPropagation();
-        openImageModalByTarget(btn.dataset.expandTarget);
+        openImageModalByTarget(btn.dataset.expandSlot);
       });
     });
 
@@ -1424,46 +1495,99 @@
       });
     });
 
-    [
+    const outputRangeItems = [
       ['brightness', dom.outputBrightness],
       ['contrast', dom.outputContrast],
       ['temperature', dom.outputTemperature],
       ['tint', dom.outputTint],
       ['saturation', dom.outputSaturation],
       ['gamma', dom.outputGamma]
-    ].forEach(([key, input]) => {
-      input?.addEventListener('input', () => {
-        state.outputAdjustments[key] = Number(input.value) || 0;
-        updateOutputAdjustmentValueLabels();
-        renderOutputFromBase();
+    ];
+
+    const rangeItems = outputRangeItems.map(([key, input]) => ({ key, input, defaultValue: 0 }));
+    const onRangeInput = (key, value) => {
+      state.outputAdjustments[key] = value;
+      updateOutputAdjustmentValueLabels();
+      queueOutputPreviewRender();
+    };
+    const onRangeCommit = (key, value) => {
+      state.outputAdjustments[key] = value;
+      updateOutputAdjustmentValueLabels();
+      finishOutputSliderInteraction();
+    };
+
+    if (typeof window.SharedUiCore?.bindRangeControlGroup === 'function') {
+      window.SharedUiCore.bindRangeControlGroup({
+        items: rangeItems,
+        enableDoubleClickReset: true,
+        onInput: onRangeInput,
+        onCommit: onRangeCommit
       });
-    });
+    } else {
+      rangeItems.forEach(({ key, input, defaultValue }) => {
+        if (!input) return;
+        input.addEventListener('input', () => {
+          onRangeInput(key, Number(input.value) || 0);
+        });
+        input.addEventListener('change', () => {
+          onRangeCommit(key, Number(input.value) || 0);
+        });
+        input.addEventListener('pointerup', () => {
+          onRangeCommit(key, Number(input.value) || 0);
+        });
+        input.addEventListener('dblclick', (event) => {
+          event.preventDefault();
+          if (input.disabled) return;
+          if ((Number(input.value) || 0) === defaultValue) return;
+          input.value = String(defaultValue);
+          onRangeInput(key, defaultValue);
+          onRangeCommit(key, defaultValue);
+        });
+      });
+    }
 
     dom.outputResetButton?.addEventListener('click', () => {
       resetOutputAdjustments(true);
-      renderOutputFromBase();
+      finishOutputSliderInteraction(true);
     });
 
     dom.generateButton?.addEventListener('click', generateFusion);
     dom.downloadButton?.addEventListener('click', handleDownload);
 
     window.addEventListener('resize', updateWorkflowSymbolsPosition);
+  }
 
-    initDragAndDrop();
+  function initImageCards() {
+    [0, 1, 2].forEach((idx) => {
+      imageCards[idx] = window.SharedImageCard.create({
+        canvas:    dom.previewCanvases[idx],
+        fileInput: dom.fileInputs[idx],
+        clearBtn:  dom.clearButtons[idx],
+        dragTarget:    dom.sourceCards[idx],
+        dragOverClass: 'is-drag-over',
+        onLoad: (bitmap, fileName) => {
+          setSlotImage(idx, bitmap, fileName, false);
+        },
+        onClear: () => {
+          clearSlot(idx);
+        },
+      });
+    });
   }
 
   function init() {
-    initTheme();
+    initShell();
     fillAssignOptions();
-    initLanguage();
     syncModeButtons();
     syncViewButtons();
     resetOutputAdjustments(true);
     updateOutputAdjustmentValueLabels();
     setOutputEditControlsEnabled(false);
+    initImageCards();
     initEvents();
     initImageModal();
     initRelatedWork();
+    ensureOutputRenderScheduler();
 
     const ctx = dom.outputCanvas.getContext('2d');
     ctx.fillStyle = '#0b1220';

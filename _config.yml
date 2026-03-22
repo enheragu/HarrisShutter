@@ -1,0 +1,23 @@
+title: HarrisShutter
+url: https://enheragu.github.io
+baseurl: /HarrisShutter
+
+plugins:
+  - jekyll-remote-theme
+
+remote_theme: enheragu/tool-pages-theme
+
+shared_assets_base: /HarrisShutter/assets/shared
+
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      lang: en
+      compact_mode: true
+      project: harris
+      tool_name: HarrisShutter
+      footer_related_contextual: true
+      with_tabs: true
+      with_image_card: true

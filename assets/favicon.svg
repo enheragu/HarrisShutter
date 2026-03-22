@@ -4,9 +4,30 @@
       <stop offset="0%" stop-color="#0d1117"/>
       <stop offset="100%" stop-color="#161b22"/>
     </linearGradient>
+
+    <circle id="mixLeft" cx="25" cy="39" r="12"/>
+    <circle id="mixRight" cx="39" cy="39" r="12"/>
+    <circle id="mixTop" cx="32" cy="26" r="12"/>
+
+    <clipPath id="clipLeft"><use href="#mixLeft"/></clipPath>
+    <clipPath id="clipRight"><use href="#mixRight"/></clipPath>
+    <clipPath id="clipTop"><use href="#mixTop"/></clipPath>
   </defs>
   <rect x="2" y="2" width="60" height="60" rx="12" fill="url(#bg)" stroke="#30363d"/>
-  <circle cx="25" cy="39" r="12" fill="#f85149" opacity="0.6"/>
-  <circle cx="39" cy="39" r="12" fill="#3fb950" opacity="0.6"/>
-  <circle cx="32" cy="26" r="12" fill="#58a6ff" opacity="0.6"/>
+
+  <g>
+    <use href="#mixLeft" fill="#f85149"/>
+    <use href="#mixRight" fill="#3fb950"/>
+    <use href="#mixTop" fill="#58a6ff"/>
+
+    <use href="#mixLeft" clip-path="url(#clipRight)" fill="#d29922"/>
+    <use href="#mixLeft" clip-path="url(#clipTop)" fill="#bc8cff"/>
+    <use href="#mixRight" clip-path="url(#clipTop)" fill="#79c0ff"/>
+
+    <g clip-path="url(#clipLeft)">
+      <g clip-path="url(#clipRight)">
+        <use href="#mixTop" fill="#ffffff"/>
+      </g>
+    </g>
+  </g>
 </svg>
