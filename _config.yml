@@ -21,3 +21,4 @@ defaults:
       footer_related_contextual: true
       with_tabs: true
       with_image_card: true
+      with_lightbox_stage: true
