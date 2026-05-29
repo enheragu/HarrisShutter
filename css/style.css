@@ -9,7 +9,7 @@
 }
 
 body {
-  font-size: var(--txt-ui, 14px);
+  font-size: var(--txt-ui);
 }
 
 .header-controls { flex-shrink: 0; }
@@ -22,17 +22,11 @@ main {
 }
 
 .panel {
-  overflow: hidden;
-  border-radius: var(--radius);
+  overflow: hidden; /* HarrisShutter-specific: clip canvas overflow */
 }
 
 .panel-header {
   margin-bottom: 0;
-}
-
-.panel-header h2 {
-  margin: 0;
-  font-size: var(--txt-lg, 1.03rem);
 }
 
 .panel-block {
@@ -40,9 +34,7 @@ main {
 }
 
 label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: var(--txt-w-semibold, 600);
+  margin-bottom: 0.3rem; /* slight increase over shared default for touch targets */
 }
 
 input[type='file'],
@@ -66,7 +58,7 @@ select {
   display: none;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 80em) {
   .source-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 44px;
@@ -84,7 +76,7 @@ select {
     position: absolute;
     top: var(--workflow-top, 62%);
     transform: translate(-50%, -50%);
-    font-size: var(--txt-display, 2.2rem);
+    font-size: var(--txt-display);
     font-weight: var(--txt-w-extrabold, 800);
     color: color-mix(in oklab, var(--clr-primary) 35%, var(--clr-muted));
     opacity: .75;
@@ -102,7 +94,7 @@ select {
   }
 }
 
-@media (min-width: 860px) and (max-width: 1279px) {
+@media (min-width: 53.75em) and (max-width: 79.9375em) {
   .source-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -132,8 +124,8 @@ select {
 
 .subpanel-header h2 {
   margin: 0;
-  font-size: var(--txt-base, .95rem);
-  font-weight: var(--txt-w-semibold, 600);
+  font-size: var(--txt-base);
+  font-weight: var(--txt-w-semibold);
 }
 
 
@@ -170,7 +162,7 @@ select {
 .file-name {
   min-width: 0;
   color: var(--clr-muted);
-  font-size: var(--txt-md-plus, .88rem);
+  font-size: var(--txt-md-plus);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -180,9 +172,9 @@ select {
   min-height: 34px;
   padding: .42rem .55rem;
   border-radius: 6px;
-  font-size: var(--txt-sm-plus, .8rem);
+  font-size: var(--txt-sm-plus);
   text-align: center;
-  font-weight: var(--txt-w-bold, 700);
+  font-weight: var(--txt-w-bold);
 }
 
 .custom-color-control {
@@ -260,7 +252,7 @@ select {
   border: 1px solid var(--clr-border);
   background: var(--clr-surface);
   color: var(--clr-text);
-  font-size: var(--txt-sm-plus, .8rem);
+  font-size: var(--txt-sm-plus);
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
   text-transform: uppercase;
   letter-spacing: .02em;
@@ -285,8 +277,8 @@ select {
 }
 
 .custom-rgb-label {
-  font-size: var(--txt-2xs, .68rem);
-  font-weight: var(--txt-w-bold, 700);
+  font-size: var(--txt-xs);
+  font-weight: var(--txt-w-bold);
   color: var(--clr-muted);
   text-align: center;
   line-height: 1;
@@ -299,7 +291,7 @@ select {
   background: var(--clr-surface);
   color: var(--clr-text);
   text-align: center;
-  font-size: var(--txt-sm, .76rem);
+  font-size: var(--txt-sm);
   font-variant-numeric: tabular-nums;
   padding: .32rem .4rem;
 }
@@ -421,7 +413,7 @@ select {
   justify-content: center;
   padding: 12px;
   text-align: center;
-  font-size: var(--txt-sm, .78rem);
+  font-size: var(--txt-sm);
   color: var(--clr-muted);
   pointer-events: none;
 }
@@ -433,8 +425,8 @@ select {
 .source-card.has-sample .drop-overlay {
   inset: 1px;
   color: color-mix(in oklab, white 86%, var(--clr-text));
-  font-size: var(--txt-sm, .76rem);
-  font-weight: var(--txt-w-semibold, 600);
+  font-size: var(--txt-sm);
+  font-weight: var(--txt-w-semibold);
   border-radius: 9px;
   text-shadow: 0 1px 1px color-mix(in oklab, black 30%, transparent);
   background:
@@ -490,7 +482,7 @@ select {
 
 .modal-view-label {
   margin: 0;
-  font-size: var(--txt-sm, .76rem);
+  font-size: var(--txt-sm);
   color: var(--clr-muted);
 }
 
@@ -549,7 +541,7 @@ select {
   border: 0;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 47.5em) {
   .image-modal {
     width: auto;
     height: auto;
@@ -621,8 +613,8 @@ select {
 .custom-presets-label {
   display: block;
   color: var(--clr-muted);
-  font-size: var(--txt-sm, .76rem);
-  font-weight: var(--txt-w-semibold, 600);
+  font-size: var(--txt-sm);
+  font-weight: var(--txt-w-semibold);
   margin-bottom: 4px;
 }
 
@@ -676,7 +668,7 @@ select {
 .hint {
   margin: 0;
   color: var(--clr-muted);
-  font-size: var(--txt-md-plus, 0.92rem);
+  font-size: var(--txt-sm);
 }
 
 .hint[data-type='error'] {
@@ -695,7 +687,7 @@ select {
   background: transparent;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 61.25em) {
   .mode-view-cluster {
     grid-template-columns: 1fr;
     width: 100%;
@@ -777,7 +769,7 @@ select {
   padding: .7rem 1rem;
 }
 .custom-color-modal .panel-header h2 {
-  font-size: var(--txt-base-plus, 1rem);
+  font-size: var(--txt-base-plus);
   margin: 0;
 }
 #btn-close-color {
@@ -801,8 +793,8 @@ select {
 .custom-palette-label {
   display: block;
   color: var(--clr-muted);
-  font-size: var(--txt-sm, .76rem);
-  font-weight: var(--txt-w-semibold, 600);
+  font-size: var(--txt-sm);
+  font-weight: var(--txt-w-semibold);
 }
 .custom-color-map {
   position: relative;

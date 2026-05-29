@@ -1,13 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="HarrisShutter light preview">
+  <style>
+    :root {
+      --c-bg-1:    #f4f6f9;
+      --c-bg-2:    #e8ecf2;
+      --c-surface: #ffffff;
+      --c-border:  #dde1e7;
+      --c-text:    #3a4658;
+      --c-blue:    #58a6ff;
+      --c-green:   #3fb950;
+      --c-red:     #f85149;
+      --c-amber:   #d29922;
+      --c-gray:    #6e7681;
+      --c-purple:  #bc8cff;
+      --c-cyan:    #79c0ff;
+    }
+  </style>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f7fbff"/>
-      <stop offset="100%" stop-color="#edf3fb"/>
+      <stop offset="0%" stop-color="var(--c-bg-1)"/>
+      <stop offset="100%" stop-color="var(--c-bg-2)"/>
     </linearGradient>
 
     <circle id="mixLeft" cx="820" cy="376" r="120"/>
     <circle id="mixRight" cx="960" cy="376" r="120"/>
-    <circle id="mixTop" cx="890" cy="256" r="120"/>
+    <circle id="mixTop"   cx="890" cy="256" r="120"/>
 
     <clipPath id="clipLeft"><use href="#mixLeft"/></clipPath>
     <clipPath id="clipRight"><use href="#mixRight"/></clipPath>
@@ -15,24 +31,24 @@
   </defs>
 
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <rect x="68" y="58" width="1064" height="514" rx="22" fill="#ffffff" stroke="#cfd8e3"/>
+  <rect x="68" y="58" width="1064" height="514" rx="22" fill="var(--c-surface)" stroke="var(--c-border)"/>
 
-  <text x="112" y="156" fill="#2f81f7" font-size="70" font-family="Segoe UI, Arial, sans-serif" font-weight="700">HarrisShutter</text>
-  <text x="112" y="210" fill="#1e293b" font-size="45" font-family="Segoe UI, Arial, sans-serif">RGB/CYM channel fusion</text>
-  <text x="112" y="264" fill="#1e293b" font-size="45" font-family="Segoe UI, Arial, sans-serif">image compositor</text>
+  <text x="112" y="156" fill="var(--c-blue)" font-size="70" font-family="Segoe UI, Arial, sans-serif" font-weight="700">HarrisShutter</text>
+  <text x="112" y="210" fill="var(--c-text)" font-size="45" font-family="Segoe UI, Arial, sans-serif">RGB/CYM channel fusion</text>
+  <text x="112" y="264" fill="var(--c-text)" font-size="45" font-family="Segoe UI, Arial, sans-serif">image compositor</text>
 
   <g>
-    <use href="#mixLeft" fill="#f85149"/>
-    <use href="#mixRight" fill="#3fb950"/>
-    <use href="#mixTop" fill="#2f81f7"/>
+    <use href="#mixLeft"  fill="var(--c-red)"/>
+    <use href="#mixRight" fill="var(--c-green)"/>
+    <use href="#mixTop"   fill="var(--c-blue)"/>
 
-    <use href="#mixLeft" clip-path="url(#clipRight)" fill="#d29922"/>
-    <use href="#mixLeft" clip-path="url(#clipTop)" fill="#bc8cff"/>
-    <use href="#mixRight" clip-path="url(#clipTop)" fill="#79c0ff"/>
+    <use href="#mixLeft" clip-path="url(#clipRight)" fill="var(--c-amber)"/>
+    <use href="#mixLeft" clip-path="url(#clipTop)"   fill="var(--c-purple)"/>
+    <use href="#mixRight" clip-path="url(#clipTop)"  fill="var(--c-cyan)"/>
 
     <g clip-path="url(#clipLeft)">
       <g clip-path="url(#clipRight)">
-        <use href="#mixTop" fill="#ffffff"/>
+        <use href="#mixTop" fill="var(--c-surface)"/>
       </g>
     </g>
   </g>
